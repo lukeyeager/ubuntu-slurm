@@ -31,6 +31,9 @@ RUN make "-j$(nproc)"
 RUN make contrib "-j$(nproc)"
 RUN make install "-j$(nproc)"
 
+# Copy pam_slurm lib
+RUN cp /workdir/src/contribs/pam/.libs/pam_slurm.so /workdir/build/lib/
+
 # Make package
 WORKDIR /workdir
 RUN fpm -s dir -t deb -v "$SLURM_VERSION-$UBUNTU_CODENAME" -n slurm --prefix=/usr -C /workdir/build .
